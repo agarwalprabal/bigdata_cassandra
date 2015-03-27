@@ -1,0 +1,25 @@
+sudo service cassandra start
+cqlsh
+CREATE NAMESPACE data_experiments WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+USE data_experiments;
+CREATE TABLE events(
+  itemid int,
+  device text,
+  quantity int,
+  date timestamp ,
+  city text,
+  state text,
+  revenue int,
+  source text,
+  PRIMARY KEY(itemid)
+);
+CREATE INDEX ON events(device);
+CREATE INDEX ON events(date);
+CREATE INDEX ON events(city);
+CREATE INDEX ON events(state);
+CREATE INDEX ON events(revenue);
+INSERT INTO events(itemid, device, quantity, date, city, state, revenue, source) VALUES (988, 'ipad', 1, '2015-02-25 02:00:00', 'varanasi', 'UP', 400, 'facebook');
+INSERT INTO events(itemid, device, quantity, date, city, state, revenue, source) VALUES (921, 'lumia', 2, '2015-02-27 05:00:00', 'varanasi', 'UP', 300, 'facebook');
+INSERT INTO events(itemid, device, quantity, date, city, state, revenue, source) VALUES (201, 'moto-e', 1, '2015-02-27 07:30:00', 'hyderabad', 'AP', 220, 'facebook');
+exit;
+sudo service cassandra stop;
